@@ -162,7 +162,6 @@
     const drawTitle = ()=>{
       const text = titlePreview.textContent || '';
       if(!text) return;
-      const lines = text.split('\n');
       const fontSize = parseInt(fontSizeNumber.value,10) || DEFAULT_FONT_SIZE;
       const lineHeight = Math.round(fontSize * 1.05);
       ctx.font = `${fontSize}px "Press Start 2P", monospace`;
@@ -172,12 +171,49 @@
       ctx.shadowColor = 'rgba(0,0,0,0.6)';
       ctx.shadowBlur = Math.max(2, Math.round(fontSize/6));
 
-      const totalHeight = lines.length * lineHeight;
-      let startY = canvas.height/2 - totalHeight/2 + lineHeight/2;
-      for(let i=0;i<lines.length;i++){
-        ctx.fillText(lines[i], canvas.width/2, startY + i*lineHeight);
+      // max text width (leave some horizontal padding)
+      const maxTextWidth = Math.max(10, Math.floor(canvas.width * 0.9));
+
+      // wrap text (respect explicit newlines)
+      const wrapLines = [];
+      const paragraphs = text.split('\n');
+      const measure = (t) => ctx.measureText(t).width;
+
+      for(const p of paragraphs){
+        const words = p.split(' ');
+        let cur = '';
+        for(const w of words){
+          const test = cur ? (cur + ' ' + w) : w;
+          if(measure(test) <= maxTextWidth){
+            cur = test;
+          } else {
+            if(cur) wrapLines.push(cur);
+            // if single word too long, break by characters
+            if(measure(w) <= maxTextWidth){
+              cur = w;
+            } else {
+              let part = '';
+              for(const ch of w){
+                const t2 = part + ch;
+                if(measure(t2) <= maxTextWidth){
+                  part = t2;
+                } else {
+                  if(part) wrapLines.push(part);
+                  part = ch;
+                }
+              }
+              cur = part;
+            }
+          }
+        }
+        if(cur) wrapLines.push(cur);
       }
-      // reset shadow
+
+      const totalHeight = wrapLines.length * lineHeight;
+      let startY = Math.max(lineHeight/2, canvas.height/2 - totalHeight/2 + lineHeight/2);
+      for(let i=0;i<wrapLines.length;i++){
+        ctx.fillText(wrapLines[i], canvas.width/2, startY + i*lineHeight);
+      }
       ctx.shadowBlur = 0;
     };
 
