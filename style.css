@@ -141,13 +141,11 @@ h1 {
 @media screen and (min-width:600px) {
     .app {
         max-width:580px;
-
     }
 }
 
 @media screen and (min-width:1024px) {
     .app {
         max-width:800px;
-
     }
 }
