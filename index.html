@@ -41,6 +41,11 @@
         <input type="number" id="fontSizeNumber" min="2" max="100" value="10">
       </label>
 
+      <label>Opacidad imagen:
+        <input type="range" id="imageOpacity" min="0" max="100" value="100">
+        <input type="number" id="imageOpacityNumber" min="0" max="100" value="100" style="width:64px">
+      </label>
+
       <label>Color texto:
         <input type="color" id="fontColor" value="#ffffff">
       </label>
@@ -50,6 +55,7 @@
 
     <section class="preview">
       <div id="thumbContainer" class="thumb" tabindex="0">
+        <div id="bgImage" class="bg"></div>
         <div id="watermark" class="watermark">aquí tu miniatura</div>
         <div id="titlePreview" class="title"></div>
         <input type="file" id="dropInput" accept="image/*" class="hidden">

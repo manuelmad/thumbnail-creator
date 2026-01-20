@@ -87,12 +87,21 @@ h1 {
     object-fit:cover
 }
 
+.thumb .bg{
+    position:absolute;
+    left:0;top:0;width:100%;height:100%;
+    background-size:cover;background-position:center center;
+    opacity:1;transition:opacity .12s linear;z-index:1
+}
+
 .watermark {
     position:absolute;
     color:rgba(0,0,0,0.35);
     font-size:14px;
     text-transform:lowercase
 }
+
+.watermark,.title{z-index:2}
 
 .title {
     position:absolute;

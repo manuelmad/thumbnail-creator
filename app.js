@@ -5,13 +5,17 @@
   const fileInput = document.getElementById('fileInput');
   const dropInput = document.getElementById('dropInput');
   const thumb = document.getElementById('thumbContainer');
+  const bgImage = document.getElementById('bgImage');
   const watermark = document.getElementById('watermark');
   const titleInput = document.getElementById('titleInput');
   const titlePreview = document.getElementById('titlePreview');
   const dims = document.getElementById('dims');
   const fontSizeRange = document.getElementById('fontSizeRange');
   const fontSizeNumber = document.getElementById('fontSizeNumber');
+  const imageOpacityRange = document.getElementById('imageOpacity');
+  const imageOpacityNumber = document.getElementById('imageOpacityNumber');
   const fontColorInput = document.getElementById('fontColor');
+  //const fontColorInput = document.getElementById('fontColor');
 
   const sizes = {
     tiktok: {w:118,h:224,ratio:'9:16'},
@@ -23,6 +27,7 @@
   let currentSize = {w: sizes.tiktok.w, h: sizes.tiktok.h};
   const DEFAULT_FONT_SIZE = 10;
   const DEFAULT_FONT_COLOR = '#ffffff';
+  const DEFAULT_IMAGE_OPACITY = 100;
 
   function setDimensions(w,h){
     thumb.style.width = w + 'px';
@@ -33,7 +38,7 @@
 
   function resetThumbnail(){
     currentImage = null;
-    thumb.style.backgroundImage = '';
+    if(bgImage) bgImage.style.backgroundImage = '';
     watermark.style.display = 'block';
     titlePreview.textContent = '';
     titleInput.value = '';
@@ -44,6 +49,9 @@
       fontColorInput.value = DEFAULT_FONT_COLOR;
       titlePreview.style.color = DEFAULT_FONT_COLOR;
     }
+    if(imageOpacityRange) imageOpacityRange.value = DEFAULT_IMAGE_OPACITY;
+    if(imageOpacityNumber) imageOpacityNumber.value = DEFAULT_IMAGE_OPACITY;
+    if(bgImage) bgImage.style.opacity = DEFAULT_IMAGE_OPACITY/100;
   }
 
   function applyImageFromFile(file){
@@ -51,9 +59,15 @@
     const reader = new FileReader();
     reader.onload = function(e){
       currentImage = e.target.result;
-      thumb.style.backgroundImage = `url('${currentImage}')`;
-      thumb.style.backgroundSize = 'cover';
-      thumb.style.backgroundPosition = 'center';
+      if(bgImage){
+        bgImage.style.backgroundImage = `url('${currentImage}')`;
+        bgImage.style.backgroundSize = 'cover';
+        bgImage.style.backgroundPosition = 'center';
+      } else {
+        thumb.style.backgroundImage = `url('${currentImage}')`;
+        thumb.style.backgroundSize = 'cover';
+        thumb.style.backgroundPosition = 'center';
+      }
       watermark.style.display = 'none';
     };
     reader.readAsDataURL(file);
@@ -124,7 +138,11 @@
           const dw = iw * scale, dh = ih * scale;
           const dx = (canvas.width - dw)/2;
           const dy = (canvas.height - dh)/2;
+          const opacity = (imageOpacityRange && imageOpacityRange.value) ? (imageOpacityRange.value/100) : 1;
+          ctx.save();
+          ctx.globalAlpha = opacity;
           ctx.drawImage(img, dx, dy, dw, dh);
+          ctx.restore();
           resolve();
         };
         img.onerror = () => resolve();
@@ -177,6 +195,24 @@
   }
 
   if(exportBtn) exportBtn.addEventListener('click', exportThumbnail);
+
+  // Opacity controls
+  if(imageOpacityRange){
+    imageOpacityRange.addEventListener('input', ()=>{
+      const v = imageOpacityRange.value;
+      if(imageOpacityNumber) imageOpacityNumber.value = v;
+      if(bgImage) bgImage.style.opacity = v/100;
+    });
+  }
+  if(imageOpacityNumber){
+    imageOpacityNumber.addEventListener('input', ()=>{
+      let v = parseInt(imageOpacityNumber.value,10);
+      if(isNaN(v)) v = DEFAULT_IMAGE_OPACITY;
+      v = Math.max(0, Math.min(100, v));
+      if(imageOpacityRange) imageOpacityRange.value = v;
+      if(bgImage) bgImage.style.opacity = v/100;
+    });
+  }
 
   // Color picker handler
   if(fontColorInput){
