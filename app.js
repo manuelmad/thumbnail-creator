@@ -11,6 +11,7 @@
   const dims = document.getElementById('dims');
   const fontSizeRange = document.getElementById('fontSizeRange');
   const fontSizeNumber = document.getElementById('fontSizeNumber');
+  const fontColorInput = document.getElementById('fontColor');
 
   const sizes = {
     tiktok: {w:118,h:224,ratio:'9:16'},
@@ -21,6 +22,7 @@
   let currentImage = null;
   let currentSize = {w: sizes.tiktok.w, h: sizes.tiktok.h};
   const DEFAULT_FONT_SIZE = 10;
+  const DEFAULT_FONT_COLOR = '#ffffff';
 
   function setDimensions(w,h){
     thumb.style.width = w + 'px';
@@ -38,6 +40,10 @@
     fontSizeRange.value = DEFAULT_FONT_SIZE;
     fontSizeNumber.value = DEFAULT_FONT_SIZE;
     titlePreview.style.fontSize = DEFAULT_FONT_SIZE + 'px';
+    if(fontColorInput) {
+      fontColorInput.value = DEFAULT_FONT_COLOR;
+      titlePreview.style.color = DEFAULT_FONT_COLOR;
+    }
   }
 
   function applyImageFromFile(file){
@@ -142,7 +148,7 @@
       const fontSize = parseInt(fontSizeNumber.value,10) || DEFAULT_FONT_SIZE;
       const lineHeight = Math.round(fontSize * 1.05);
       ctx.font = `${fontSize}px "Press Start 2P", monospace`;
-      ctx.fillStyle = '#ffffff';
+      ctx.fillStyle = (fontColorInput && fontColorInput.value) ? fontColorInput.value : DEFAULT_FONT_COLOR;
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
       ctx.shadowColor = 'rgba(0,0,0,0.6)';
@@ -171,6 +177,13 @@
   }
 
   if(exportBtn) exportBtn.addEventListener('click', exportThumbnail);
+
+  // Color picker handler
+  if(fontColorInput){
+    fontColorInput.addEventListener('input', ()=>{
+      titlePreview.style.color = fontColorInput.value;
+    });
+  }
 
   // Title input
   titleInput.addEventListener('input', ()=>{
