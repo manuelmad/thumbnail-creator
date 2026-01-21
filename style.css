@@ -14,7 +14,7 @@ body {
 
 .app {
     max-width:300px;
-    width:100%;
+    /* width:300px; */
     text-align: center;
 }
 
@@ -32,6 +32,7 @@ h1 {
     max-width: 500px;
     margin: 0 auto 16px;
     text-align: left;
+    width: 100%;
 }
 
 .controls label {
@@ -40,6 +41,10 @@ h1 {
     gap:8px */
     display: block;
     margin-bottom:16px
+}
+
+#platform {
+    height: 30px;
 }
 
 .fileLabel input {
