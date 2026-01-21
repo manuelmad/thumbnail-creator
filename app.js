@@ -18,7 +18,7 @@
   //const fontColorInput = document.getElementById('fontColor');
 
   const sizes = {
-    tiktok: {w:118,h:224,ratio:'9:16'},
+    tiktok: {w:324,h:432,ratio:'3:4'},
     youtube_h: {w:1280,h:720,ratio:'16:9'},
     youtube_v: {w:1080,h:1920,ratio:'9:16'}
   };
@@ -32,7 +32,14 @@
   function setDimensions(w,h){
     thumb.style.width = w + 'px';
     thumb.style.height = h + 'px';
-    dims.textContent = w + ' × ' + h;
+    if(w==324) {
+      dims.textContent = `${w} x ${h} (${(sizes.tiktok.ratio)})`;
+    } else if (w==1280) {
+      dims.textContent = `${w} x ${h} (${(sizes.youtube_h.ratio)})`;
+    } else if (w==1080) {
+      dims.textContent = `${w} x ${h} (${(sizes.youtube_v.ratio)})`;
+    }
+    //dims.textContent = w + ' × ' + h;
     currentSize = {w: w, h: h};
   }
 

@@ -14,7 +14,8 @@ body {
 
 .app {
     max-width:300px;
-    width:100%
+    width:100%;
+    text-align: center;
 }
 
 h1 {
@@ -23,17 +24,22 @@ h1 {
 }
 
 .controls {
-    display:flex;
+    /* display:flex;
     flex-wrap:wrap;
     gap:12px;
-    align-items:center;
-    margin-bottom:16px
+    align-items:center; */
+    /* margin-bottom:16px; */
+    max-width: 500px;
+    margin: 0 auto 16px;
+    text-align: left;
 }
 
 .controls label {
-    display:flex;
+    /* display:flex;
     align-items:center;
-    gap:8px
+    gap:8px */
+    display: block;
+    margin-bottom:16px
 }
 
 .fileLabel input {
@@ -61,6 +67,10 @@ h1 {
     opacity:0.9
 }
 
+.preview {
+    text-align: center;
+}
+
 .thumb.dragover {
     border-color:#1f6feb
 }
@@ -78,7 +88,8 @@ h1 {
     display:flex;
     align-items:center;
     justify-content:center;
-    overflow:hidden
+    overflow:hidden;
+    margin: 0 auto;
 }
 
 .thumb img {
@@ -89,9 +100,15 @@ h1 {
 
 .thumb .bg{
     position:absolute;
-    left:0;top:0;width:100%;height:100%;
-    background-size:cover;background-position:center center;
-    opacity:1;transition:opacity .12s linear;z-index:1
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background-size:cover;
+    background-position:center center;
+    opacity:1;
+    transition:opacity .12s linear;
+    z-index:1
 }
 
 .watermark {
