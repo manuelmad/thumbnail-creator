@@ -72,6 +72,18 @@ h1 {
     opacity:0.9
 }
 
+.title-controls, .platforms-container, .fileLabel {
+    border: 2px solid black;
+    border-radius: 5px;
+    padding: 5px;
+    margin-bottom:16px
+}
+
+.export-button__container {
+    text-align: center;
+    margin-top: 10px;;
+}
+
 .preview {
     text-align: center;
 }

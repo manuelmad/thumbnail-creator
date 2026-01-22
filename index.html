@@ -12,63 +12,68 @@
     <h1>Creador de miniaturas</h1>
 
     <section class="controls">
-      <label>Plataforma:
-        <select id="platform">
-          <option value="tiktok" selected>TikTok (324 x 432 pixeles) (3:4)</option>
-          <option value="youtube">YouTube</option>
-        </select>
-      </label>
+      <div class="platforms-container">
+        <label>Plataforma:
+          <select id="platform">
+            <option value="tiktok" selected>TikTok (324 x 432 pixeles) (3:4)</option>
+            <option value="youtube">YouTube</option>
+          </select>
+        </label>
 
-      <div id="youtubeOptions" class="hidden">
-        <label>
-          <input type="radio" name="ytOrient" value="horizontal" checked> Horizontal (1280 x 720 píxeles) (16:9)
-        </label>
-        <label>
-          <input type="radio" name="ytOrient" value="vertical"> Vertical (1080 x 1920 píxeles) (9:16)
-        </label>
+        <div id="youtubeOptions" class="hidden">
+          <label>
+            <input type="radio" name="ytOrient" value="horizontal" checked> Horizontal (1280 x 720 píxeles) (16:9)
+          </label>
+          <label>
+            <input type="radio" name="ytOrient" value="vertical"> Vertical (1080 x 1920 píxeles) (9:16)
+          </label>
+        </div>
       </div>
-
       <label class="fileLabel">Subir imagen:
         <input type="file" id="fileInput" accept="image/*">
       </label>
 
-      <label>Título:
-        <textarea id="titleInput" placeholder="Escribe el título..." rows="3"></textarea>
-      </label>
+      <div class="title-controls">
+        <label>Título:
+          <textarea id="titleInput" placeholder="Escribe el título..." rows="3"></textarea>
+        </label>
 
-      <label>Tamaño fuente:
-        <input type="range" id="fontSizeRange" min="2" max="100" value="10">
-        <input type="number" id="fontSizeNumber" min="2" max="100" value="10">
-      </label>
+        <label>Tamaño fuente:
+          <input type="range" id="fontSizeRange" min="2" max="100" value="10">
+          <input type="number" id="fontSizeNumber" min="2" max="100" value="10">
+        </label>
 
-      <label>Opacidad imagen:
-        <input type="range" id="imageOpacity" min="0" max="100" value="100">
-        <input type="number" id="imageOpacityNumber" min="0" max="100" value="100" style="width:64px">
-      </label>
+        <label>Opacidad imagen:
+          <input type="range" id="imageOpacity" min="0" max="100" value="100">
+          <input type="number" id="imageOpacityNumber" min="0" max="100" value="100" style="width:64px">
+        </label>
 
-      <label>Color texto:
-        <input type="color" id="fontColor" value="#ffffff">
-      </label>
+        <label>Color texto:
+          <input type="color" id="fontColor" value="#ffffff">
+        </label>
 
-      <label>Posición título:
-        <div class="posControls">
-          <label style="display:block">X:
-            <input type="range" id="titleX" min="0" max="100" value="50">
-            <input type="number" id="titleXNumber" min="0" max="100" value="50" style="width:64px">
-          </label>
-          <label style="display:block">Y:
-            <input type="range" id="titleY" min="0" max="100" value="50">
-            <input type="number" id="titleYNumber" min="0" max="100" value="50" style="width:64px">
-          </label>
-          <div style="margin-top:8px">
-            <button type="button" id="posTop">Arriba</button>
-            <button type="button" id="posMiddle">Centro</button>
-            <button type="button" id="posBottom">Abajo</button>
+        <label>Posición título:
+          <div class="posControls">
+            <label style="display:block">X:
+              <input type="range" id="titleX" min="0" max="100" value="50">
+              <input type="number" id="titleXNumber" min="0" max="100" value="50" style="width:64px">
+            </label>
+            <label style="display:block">Y:
+              <input type="range" id="titleY" min="0" max="100" value="50">
+              <input type="number" id="titleYNumber" min="0" max="100" value="50" style="width:64px">
+            </label>
+            <div style="margin-top:8px">
+              <button type="button" id="posTop">Arriba</button>
+              <button type="button" id="posMiddle">Centro</button>
+              <button type="button" id="posBottom">Abajo</button>
+            </div>
           </div>
-        </div>
-      </label>
-
-      <button type="button" id="exportBtn">Exportar imagen</button>
+        </label>
+      </div>
+      <div class="export-button__container">
+        <button type="button" id="exportBtn">Exportar imagen</button>
+      </div>
+      
     </section>
 
     <section class="preview">
