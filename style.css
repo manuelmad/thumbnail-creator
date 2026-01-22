@@ -1,6 +1,7 @@
 * {
     box-sizing:border-box;
-    font-family:Arial,helvetica,sans-serif
+    /* font-family:Arial,helvetica,sans-serif; */
+    font-family: "Roboto", sans-serif;
 }
 
 body {
@@ -9,7 +10,12 @@ body {
     align-items:flex-start;
     justify-content:center;
     padding:24px;
-    background:#f4f6f8
+    background:#181c23;
+    color: #fff;
+}
+
+div {
+    background:#292e38;
 }
 
 .app {
@@ -19,7 +25,7 @@ body {
 }
 
 h1 {
-    font-size:20px;
+    font-size:30px;
     margin:0 0 12px
 }
 
@@ -73,9 +79,9 @@ h1 {
 }
 
 .title-controls, .platforms-container, .backgroung-img__container, .overlay-img__container {
-    border: 2px solid black;
+    border: 2px solid #0ae98a;
     border-radius: 5px;
-    padding: 5px;
+    padding: 8px;
     margin-bottom:16px
 }
 
@@ -116,7 +122,8 @@ h1 {
 
 .export-button__container {
     text-align: center;
-    margin-top: 10px;;
+    margin-top: 10px;
+    background:#181c23;
 }
 
 .preview {
@@ -165,7 +172,8 @@ h1 {
 
 .watermark {
     position:absolute;
-    color:rgba(0,0,0,0.35);
+    /* color:rgba(0,0,0,0.35); */
+    color: #c9c6c6;
     font-size:14px;
     text-transform:lowercase
 }
@@ -204,10 +212,11 @@ h1 {
     width: 90%;
 }
 
-.info {
+.info div {
     font-size:14px;
-    color:#333;
-    align-self:center
+    color:#fff;
+    align-self:center;
+    background:#181c23;
 }
 
 .hidden {
