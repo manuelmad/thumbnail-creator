@@ -22,6 +22,16 @@
   const posTopBtn = document.getElementById('posTop');
   const posMiddleBtn = document.getElementById('posMiddle');
   const posBottomBtn = document.getElementById('posBottom');
+  const overlayInput = document.getElementById('overlayInput');
+  const overlayElement = document.getElementById('overlayImage');
+  const overlaySizeRange = document.getElementById('overlaySize');
+  const overlaySizeNumber = document.getElementById('overlaySizeNumber');
+  const overlayOpacityRange = document.getElementById('overlayOpacity');
+  const overlayOpacityNumber = document.getElementById('overlayOpacityNumber');
+  const overlayXRange = document.getElementById('overlayX');
+  const overlayXNumber = document.getElementById('overlayXNumber');
+  const overlayYRange = document.getElementById('overlayY');
+  const overlayYNumber = document.getElementById('overlayYNumber');
   //const fontColorInput = document.getElementById('fontColor');
 
   const sizes = {
@@ -35,7 +45,11 @@
   const DEFAULT_FONT_SIZE = 10;
   const DEFAULT_FONT_COLOR = '#ffffff';
   const DEFAULT_IMAGE_OPACITY = 100;
+  const DEFAULT_OVERLAY_SCALE = 100;
+  const DEFAULT_OVERLAY_OPACITY = 100;
+  const DEFAULT_OVERLAY_POS = {x:50,y:50};
   const DEFAULT_TITLE_POS = {x:50,y:50};
+  let currentOverlay = null;
 
   function setDimensions(w,h){
     thumb.style.width = w + 'px';
@@ -71,6 +85,21 @@
     if(titleXNumber) titleXNumber.value = DEFAULT_TITLE_POS.x;
     if(titleYRange) titleYRange.value = DEFAULT_TITLE_POS.y;
     if(titleYNumber) titleYNumber.value = DEFAULT_TITLE_POS.y;
+    // reset overlay
+    currentOverlay = null;
+    if(overlayElement) {
+      // clear any preview image
+      overlayElement.style.backgroundImage = '';
+      overlayElement.innerHTML = '';
+      overlayElement.style.opacity = DEFAULT_OVERLAY_OPACITY/100;
+      overlayElement.style.width = DEFAULT_OVERLAY_SCALE + '%';
+      overlayElement.style.left = DEFAULT_OVERLAY_POS.x + '%';
+      overlayElement.style.top = DEFAULT_OVERLAY_POS.y + '%';
+    }
+    if(overlaySizeRange) overlaySizeRange.value = DEFAULT_OVERLAY_SCALE;
+    if(overlaySizeNumber) overlaySizeNumber.value = DEFAULT_OVERLAY_SCALE;
+    if(overlayOpacityRange) overlayOpacityRange.value = DEFAULT_OVERLAY_OPACITY;
+    if(overlayOpacityNumber) overlayOpacityNumber.value = DEFAULT_OVERLAY_OPACITY;
     updateTitlePosition();
   }
 
@@ -89,6 +118,34 @@
         thumb.style.backgroundPosition = 'center';
       }
       watermark.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function applyOverlayFromFile(file){
+    if(!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e){
+      currentOverlay = e.target.result;
+      if(overlayElement){
+        // create an <img> inside overlayElement so it has intrinsic height for preview
+        overlayElement.innerHTML = '';
+        const img = new Image();
+        img.src = currentOverlay;
+        img.style.width = '100%';
+        img.style.height = 'auto';
+        img.style.display = 'block';
+        overlayElement.appendChild(img);
+
+        const size = (overlaySizeNumber && overlaySizeNumber.value) ? overlaySizeNumber.value : DEFAULT_OVERLAY_SCALE;
+        overlayElement.style.width = size + '%';
+        const op = (overlayOpacityNumber && overlayOpacityNumber.value) ? (overlayOpacityNumber.value/100) : (DEFAULT_OVERLAY_OPACITY/100);
+        overlayElement.style.opacity = op;
+        const ox = (overlayXNumber && overlayXNumber.value) ? overlayXNumber.value : DEFAULT_OVERLAY_POS.x;
+        const oy = (overlayYNumber && overlayYNumber.value) ? overlayYNumber.value : DEFAULT_OVERLAY_POS.y;
+        overlayElement.style.left = ox + '%';
+        overlayElement.style.top = oy + '%';
+      }
     };
     reader.readAsDataURL(file);
   }
@@ -122,6 +179,50 @@
     const f = e.target.files[0];
     applyImageFromFile(f);
   });
+
+  // Overlay file input
+  if(overlayInput){
+    overlayInput.addEventListener('change', (e)=>{
+      const f = e.target.files[0];
+      applyOverlayFromFile(f);
+    });
+  }
+
+  // Overlay position controls
+  if(overlayXRange){
+    overlayXRange.addEventListener('input', ()=>{
+      const v = overlayXRange.value;
+      if(overlayXNumber) overlayXNumber.value = v;
+      if(overlayElement) overlayElement.style.left = v + '%';
+    });
+  }
+  if(overlayXNumber){
+    overlayXNumber.addEventListener('input', ()=>{
+      let v = parseInt(overlayXNumber.value,10);
+      if(isNaN(v)) v = DEFAULT_OVERLAY_POS.x;
+      v = Math.max(0, Math.min(100, v));
+      if(overlayXRange) overlayXRange.value = v;
+      overlayXNumber.value = v;
+      if(overlayElement) overlayElement.style.left = v + '%';
+    });
+  }
+  if(overlayYRange){
+    overlayYRange.addEventListener('input', ()=>{
+      const v = overlayYRange.value;
+      if(overlayYNumber) overlayYNumber.value = v;
+      if(overlayElement) overlayElement.style.top = v + '%';
+    });
+  }
+  if(overlayYNumber){
+    overlayYNumber.addEventListener('input', ()=>{
+      let v = parseInt(overlayYNumber.value,10);
+      if(isNaN(v)) v = DEFAULT_OVERLAY_POS.y;
+      v = Math.max(0, Math.min(100, v));
+      if(overlayYRange) overlayYRange.value = v;
+      overlayYNumber.value = v;
+      if(overlayElement) overlayElement.style.top = v + '%';
+    });
+  }
 
   // Drag & drop on thumb
   thumb.addEventListener('dragover', (e)=>{e.preventDefault(); thumb.classList.add('dragover');});
@@ -159,6 +260,36 @@
           const dx = (canvas.width - dw)/2;
           const dy = (canvas.height - dh)/2;
           const opacity = (imageOpacityRange && imageOpacityRange.value) ? (imageOpacityRange.value/100) : 1;
+          ctx.save();
+          ctx.globalAlpha = opacity;
+          ctx.drawImage(img, dx, dy, dw, dh);
+          ctx.restore();
+          resolve();
+        };
+        img.onerror = () => resolve();
+        img.src = imgSrc;
+      });
+    };
+
+    const drawOverlay = (imgSrc) => {
+      return new Promise((resolve)=>{
+        if(!imgSrc){ resolve(); return; }
+        const img = new Image();
+        img.onload = function(){
+          // desired width based on overlaySize percent of canvas width
+          const overlayScale = (overlaySizeNumber && overlaySizeNumber.value) ? Number(overlaySizeNumber.value) : DEFAULT_OVERLAY_SCALE;
+          const desiredW = Math.max(1, Math.round((overlayScale/100) * canvas.width));
+          const scale = desiredW / img.width;
+          const dw = img.width * scale;
+          const dh = img.height * scale;
+          // position based on overlay X/Y percent (center of overlay)
+          const xPercent = (overlayXNumber && overlayXNumber.value) ? Number(overlayXNumber.value) : DEFAULT_OVERLAY_POS.x;
+          const yPercent = (overlayYNumber && overlayYNumber.value) ? Number(overlayYNumber.value) : DEFAULT_OVERLAY_POS.y;
+          const xCoord = Math.round((xPercent/100) * canvas.width);
+          const yCoord = Math.round((yPercent/100) * canvas.height);
+          const dx = Math.round(xCoord - dw/2);
+          const dy = Math.round(yCoord - dh/2);
+          const opacity = (overlayOpacityRange && overlayOpacityRange.value) ? (overlayOpacityRange.value/100) : 1;
           ctx.save();
           ctx.globalAlpha = opacity;
           ctx.drawImage(img, dx, dy, dw, dh);
@@ -241,7 +372,7 @@
       ctx.shadowBlur = 0;
     };
 
-    drawBackground(currentImage).then(()=>{
+    drawBackground(currentImage).then(()=> drawOverlay(currentOverlay) ).then(()=>{
       if(!currentImage) drawWatermark();
       drawTitle();
       const data = canvas.toDataURL('image/png');
@@ -344,6 +475,42 @@
   if(posTopBtn) posTopBtn.addEventListener('click', ()=>{ if(titleYRange && titleYNumber){ titleYRange.value=10; titleYNumber.value=10; updateTitlePosition(); } });
   if(posMiddleBtn) posMiddleBtn.addEventListener('click', ()=>{ if(titleYRange && titleYNumber){ titleYRange.value=50; titleYNumber.value=50; updateTitlePosition(); } });
   if(posBottomBtn) posBottomBtn.addEventListener('click', ()=>{ if(titleYRange && titleYNumber){ titleYRange.value=90; titleYNumber.value=90; updateTitlePosition(); } });
+  // Overlay size controls
+  if(overlaySizeRange){
+    overlaySizeRange.addEventListener('input', ()=>{
+      const v = overlaySizeRange.value;
+      if(overlaySizeNumber) overlaySizeNumber.value = v;
+      if(overlayElement) overlayElement.style.width = v + '%';
+    });
+  }
+  if(overlaySizeNumber){
+    overlaySizeNumber.addEventListener('input', ()=>{
+      let v = parseInt(overlaySizeNumber.value,10);
+      if(isNaN(v)) v = DEFAULT_OVERLAY_SCALE;
+      v = Math.max(10, Math.min(200, v));
+      if(overlaySizeRange) overlaySizeRange.value = v;
+      overlaySizeNumber.value = v;
+      if(overlayElement) overlayElement.style.width = v + '%';
+    });
+  }
+  // Overlay opacity controls
+  if(overlayOpacityRange){
+    overlayOpacityRange.addEventListener('input', ()=>{
+      const v = overlayOpacityRange.value;
+      if(overlayOpacityNumber) overlayOpacityNumber.value = v;
+      if(overlayElement) overlayElement.style.opacity = v/100;
+    });
+  }
+  if(overlayOpacityNumber){
+    overlayOpacityNumber.addEventListener('input', ()=>{
+      let v = parseInt(overlayOpacityNumber.value,10);
+      if(isNaN(v)) v = DEFAULT_OVERLAY_OPACITY;
+      v = Math.max(0, Math.min(100, v));
+      if(overlayOpacityRange) overlayOpacityRange.value = v;
+      if(overlayElement) overlayElement.style.opacity = v/100;
+      overlayOpacityNumber.value = v;
+    });
+  }
   updateTitlePosition();
 
   // Initialize default sizes and state

@@ -29,9 +29,41 @@
           </label>
         </div>
       </div>
-      <label class="fileLabel">Subir imagen:
-        <input type="file" id="fileInput" accept="image/*">
-      </label>
+      <div class="backgroung-img__container">
+        <label class="fileLabel">Subir imagen:
+          <input type="file" id="fileInput" accept="image/*">
+        </label>
+        <label>Opacidad imagen:
+          <input type="range" id="imageOpacity" min="0" max="100" value="100">
+          <input type="number" id="imageOpacityNumber" min="0" max="100" value="100" style="width:64px">
+        </label>
+      </div>
+      <div class="overlay-img__container">
+        <label class="fileLabel">Subir imagen (delante del fondo):
+          <input type="file" id="overlayInput" accept="image/*">
+        </label>
+        <label>Tamaño overlay (% ancho):
+          <input type="range" id="overlaySize" min="10" max="200" value="100">
+          <input type="number" id="overlaySizeNumber" min="10" max="200" value="100" style="width:64px">
+        </label>
+        <label>Opacidad overlay:
+          <input type="range" id="overlayOpacity" min="0" max="100" value="100">
+          <input type="number" id="overlayOpacityNumber" min="0" max="100" value="100" style="width:64px">
+        </label>
+        <label>Posición overlay:
+          <div style="display:block">
+            <label style="display:block">X:
+              <input type="range" id="overlayX" min="0" max="100" value="50">
+              <input type="number" id="overlayXNumber" min="0" max="100" value="50" style="width:64px">
+            </label>
+            <label style="display:block">Y:
+              <input type="range" id="overlayY" min="0" max="100" value="50">
+              <input type="number" id="overlayYNumber" min="0" max="100" value="50" style="width:64px">
+            </label>
+          </div>
+        </label>
+      </div>
+      
 
       <div class="title-controls">
         <label>Título:
@@ -41,11 +73,6 @@
         <label>Tamaño fuente:
           <input type="range" id="fontSizeRange" min="2" max="100" value="10">
           <input type="number" id="fontSizeNumber" min="2" max="100" value="10">
-        </label>
-
-        <label>Opacidad imagen:
-          <input type="range" id="imageOpacity" min="0" max="100" value="100">
-          <input type="number" id="imageOpacityNumber" min="0" max="100" value="100" style="width:64px">
         </label>
 
         <label>Color texto:
@@ -79,6 +106,7 @@
     <section class="preview">
       <div id="thumbContainer" class="thumb" tabindex="0">
         <div id="bgImage" class="bg"></div>
+        <div id="overlayImage" class="overlay"></div>
         <div id="watermark" class="watermark">aquí tu miniatura</div>
         <div id="titlePreview" class="title"></div>
         <input type="file" id="dropInput" accept="image/*" class="hidden">
