@@ -15,6 +15,13 @@
   const imageOpacityRange = document.getElementById('imageOpacity');
   const imageOpacityNumber = document.getElementById('imageOpacityNumber');
   const fontColorInput = document.getElementById('fontColor');
+  const titleXRange = document.getElementById('titleX');
+  const titleXNumber = document.getElementById('titleXNumber');
+  const titleYRange = document.getElementById('titleY');
+  const titleYNumber = document.getElementById('titleYNumber');
+  const posTopBtn = document.getElementById('posTop');
+  const posMiddleBtn = document.getElementById('posMiddle');
+  const posBottomBtn = document.getElementById('posBottom');
   //const fontColorInput = document.getElementById('fontColor');
 
   const sizes = {
@@ -28,6 +35,7 @@
   const DEFAULT_FONT_SIZE = 10;
   const DEFAULT_FONT_COLOR = '#ffffff';
   const DEFAULT_IMAGE_OPACITY = 100;
+  const DEFAULT_TITLE_POS = {x:50,y:50};
 
   function setDimensions(w,h){
     thumb.style.width = w + 'px';
@@ -59,6 +67,11 @@
     if(imageOpacityRange) imageOpacityRange.value = DEFAULT_IMAGE_OPACITY;
     if(imageOpacityNumber) imageOpacityNumber.value = DEFAULT_IMAGE_OPACITY;
     if(bgImage) bgImage.style.opacity = DEFAULT_IMAGE_OPACITY/100;
+    if(titleXRange) titleXRange.value = DEFAULT_TITLE_POS.x;
+    if(titleXNumber) titleXNumber.value = DEFAULT_TITLE_POS.x;
+    if(titleYRange) titleYRange.value = DEFAULT_TITLE_POS.y;
+    if(titleYNumber) titleYNumber.value = DEFAULT_TITLE_POS.y;
+    updateTitlePosition();
   }
 
   function applyImageFromFile(file){
@@ -217,9 +230,13 @@
       }
 
       const totalHeight = wrapLines.length * lineHeight;
-      let startY = Math.max(lineHeight/2, canvas.height/2 - totalHeight/2 + lineHeight/2);
+      const xPercent = (titleXNumber && titleXNumber.value) ? Number(titleXNumber.value) : DEFAULT_TITLE_POS.x;
+      const yPercent = (titleYNumber && titleYNumber.value) ? Number(titleYNumber.value) : DEFAULT_TITLE_POS.y;
+      const xCoord = Math.round((xPercent/100) * canvas.width);
+      const yCoord = Math.round((yPercent/100) * canvas.height);
+      let startY = Math.max(lineHeight/2, yCoord - totalHeight/2 + lineHeight/2);
       for(let i=0;i<wrapLines.length;i++){
-        ctx.fillText(wrapLines[i], canvas.width/2, startY + i*lineHeight);
+        ctx.fillText(wrapLines[i], xCoord, startY + i*lineHeight);
       }
       ctx.shadowBlur = 0;
     };
@@ -281,12 +298,52 @@
   fontSizeRange.addEventListener('input', ()=> setFontSize(fontSizeRange.value));
   fontSizeNumber.addEventListener('input', ()=> setFontSize(fontSizeNumber.value));
 
-  // Center title both horizontally and vertically
+  // Title position (percent from 0 to 100)
   function updateTitlePosition(){
-    titlePreview.style.left = '50%';
-    titlePreview.style.top = '50%';
+    const x = (titleXNumber && titleXNumber.value) ? Number(titleXNumber.value) : DEFAULT_TITLE_POS.x;
+    const y = (titleYNumber && titleYNumber.value) ? Number(titleYNumber.value) : DEFAULT_TITLE_POS.y;
+    titlePreview.style.left = x + '%';
+    titlePreview.style.top = y + '%';
     titlePreview.style.transform = 'translate(-50%, -50%)';
   }
+  // Sync range/number inputs and bind events
+  if(titleXRange){
+    titleXRange.addEventListener('input', ()=>{
+      const v = titleXRange.value;
+      if(titleXNumber) titleXNumber.value = v;
+      updateTitlePosition();
+    });
+  }
+  if(titleXNumber){
+    titleXNumber.addEventListener('input', ()=>{
+      let v = parseInt(titleXNumber.value,10);
+      if(isNaN(v)) v = DEFAULT_TITLE_POS.x;
+      v = Math.max(0, Math.min(100, v));
+      if(titleXRange) titleXRange.value = v;
+      titleXNumber.value = v;
+      updateTitlePosition();
+    });
+  }
+  if(titleYRange){
+    titleYRange.addEventListener('input', ()=>{
+      const v = titleYRange.value;
+      if(titleYNumber) titleYNumber.value = v;
+      updateTitlePosition();
+    });
+  }
+  if(titleYNumber){
+    titleYNumber.addEventListener('input', ()=>{
+      let v = parseInt(titleYNumber.value,10);
+      if(isNaN(v)) v = DEFAULT_TITLE_POS.y;
+      v = Math.max(0, Math.min(100, v));
+      if(titleYRange) titleYRange.value = v;
+      titleYNumber.value = v;
+      updateTitlePosition();
+    });
+  }
+  if(posTopBtn) posTopBtn.addEventListener('click', ()=>{ if(titleYRange && titleYNumber){ titleYRange.value=10; titleYNumber.value=10; updateTitlePosition(); } });
+  if(posMiddleBtn) posMiddleBtn.addEventListener('click', ()=>{ if(titleYRange && titleYNumber){ titleYRange.value=50; titleYNumber.value=50; updateTitlePosition(); } });
+  if(posBottomBtn) posBottomBtn.addEventListener('click', ()=>{ if(titleYRange && titleYNumber){ titleYRange.value=90; titleYNumber.value=90; updateTitlePosition(); } });
   updateTitlePosition();
 
   // Initialize default sizes and state
