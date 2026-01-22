@@ -12,22 +12,11 @@
     <h1>Creador de miniaturas</h1>
 
     <section class="controls">
-      <div class="platforms-container">
-        <label>Plataforma:
-          <select id="platform">
-            <option value="tiktok" selected>TikTok (324 x 432 pixeles) (3:4)</option>
-            <option value="youtube">YouTube</option>
-          </select>
-        </label>
-
-        <div id="youtubeOptions" class="hidden">
-          <label>
-            <input type="radio" name="ytOrient" value="horizontal" checked> Horizontal (1280 x 720 píxeles) (16:9)
-          </label>
-          <label>
-            <input type="radio" name="ytOrient" value="vertical"> Vertical (1080 x 1920 píxeles) (9:16)
-          </label>
-        </div>
+      <div class="platforms-container" role="tablist" aria-label="Plataforma">
+        <p>Elige la plataforma:</p>
+        <div id="btnTiktok" class="platform-btn" role="button" tabindex="0" aria-pressed="true" aria-label="TikTok"></div>
+        <div id="btnYoutubeH" class="platform-btn" role="button" tabindex="0" aria-pressed="false" aria-label="YouTube horizontal"></div>
+        <div id="btnYoutubeV" class="platform-btn" role="button" tabindex="0" aria-pressed="false" aria-label="YouTube vertical"></div>
       </div>
       <div class="backgroung-img__container">
         <label class="fileLabel">Subir imagen:

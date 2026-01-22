@@ -72,11 +72,46 @@ h1 {
     opacity:0.9
 }
 
-.title-controls, .platforms-container, .backgroung-img__container {
+.title-controls, .platforms-container, .backgroung-img__container, .overlay-img__container {
     border: 2px solid black;
     border-radius: 5px;
     padding: 5px;
     margin-bottom:16px
+}
+
+.platforms-container {
+    display:flex;
+    gap:8px;
+    justify-content:flex-start;
+    align-items:center;
+}
+.platform-btn{
+    width:64px;
+    height:40px;
+    border:2px solid transparent;
+    border-radius:6px;
+    background-size:30px;
+    background-repeat:no-repeat;
+    background-position:center center;
+    cursor:pointer;
+    background-color: #000000;
+}
+.platform-btn[aria-pressed="true"]{
+    border-color:#1f6feb;
+}
+
+/* specific backgrounds */
+.platform-btn#btnTiktok {
+    background-image: url('imgs/Tiktok-logo.png');
+}
+
+.platform-btn#btnYoutubeH {
+    background-image: url('imgs/Youtube_logo.png');
+}
+
+.platform-btn#btnYoutubeV {
+    background-image: url('imgs/youtube_shorts_logo.png');
+    background-size:50px;
 }
 
 .export-button__container {
@@ -135,10 +170,24 @@ h1 {
     text-transform:lowercase
 }
 
-.watermark,.title{z-index:3}
+.watermark,.title {
+    z-index:3
+}
 
-.overlay { z-index:2; position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:auto; height:auto;
-    background-repeat:no-repeat; background-position:center center; background-size:100% auto; opacity:1; pointer-events:none }
+.overlay {
+    z-index:2;
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:auto;
+    height:auto;
+    background-repeat:no-repeat;
+    background-position:center center;
+    background-size:100% auto;
+    opacity:1;
+    pointer-events:none
+}
 
 .title {
     position:absolute;

@@ -1,7 +1,7 @@
 (function(){
-  const platform = document.getElementById('platform');
-  const youtubeOptions = document.getElementById('youtubeOptions');
-  const ytRadios = document.getElementsByName('ytOrient');
+  const btnTiktok = document.getElementById('btnTiktok');
+  const btnYoutubeH = document.getElementById('btnYoutubeH');
+  const btnYoutubeV = document.getElementById('btnYoutubeV');
   const fileInput = document.getElementById('fileInput');
   const dropInput = document.getElementById('dropInput');
   const thumb = document.getElementById('thumbContainer');
@@ -150,29 +150,27 @@
     reader.readAsDataURL(file);
   }
 
-  // Platform change handler
-  platform.addEventListener('change', ()=>{
-    const p = platform.value;
-    if(p === 'youtube'){
-      youtubeOptions.classList.remove('hidden');
-      // default horizontal
-      setDimensions(sizes.youtube_h.w,sizes.youtube_h.h);
-    } else {
-      youtubeOptions.classList.add('hidden');
-      setDimensions(sizes.tiktok.w,sizes.tiktok.h);
-    }
-    resetThumbnail();
-  });
-
-  // YouTube orientation radios
-  ytRadios.forEach(r => r.addEventListener('change', ()=>{
-    if(platform.value !== 'youtube') return;
-    if(r.checked){
-      if(r.value === 'horizontal') setDimensions(sizes.youtube_h.w,sizes.youtube_h.h);
-      else setDimensions(sizes.youtube_v.w,sizes.youtube_v.h);
-      resetThumbnail();
-    }
-  }));
+  // Platform buttons handlers
+  function selectPlatform(selectedBtn){
+    const btns = [btnTiktok, btnYoutubeH, btnYoutubeV];
+    btns.forEach(b => {
+      if(!b) return;
+      const pressed = (b === selectedBtn);
+      b.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+    });
+  }
+  if(btnTiktok) {
+    btnTiktok.addEventListener('click', ()=>{ selectPlatform(btnTiktok); setDimensions(sizes.tiktok.w,sizes.tiktok.h); resetThumbnail(); });
+    btnTiktok.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); btnTiktok.click(); } });
+  }
+  if(btnYoutubeH) {
+    btnYoutubeH.addEventListener('click', ()=>{ selectPlatform(btnYoutubeH); setDimensions(sizes.youtube_h.w,sizes.youtube_h.h); resetThumbnail(); });
+    btnYoutubeH.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); btnYoutubeH.click(); } });
+  }
+  if(btnYoutubeV) {
+    btnYoutubeV.addEventListener('click', ()=>{ selectPlatform(btnYoutubeV); setDimensions(sizes.youtube_v.w,sizes.youtube_v.h); resetThumbnail(); });
+    btnYoutubeV.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' ') { e.preventDefault(); btnYoutubeV.click(); } });
+  }
 
   // File input
   fileInput.addEventListener('change', (e)=>{
@@ -517,6 +515,7 @@
   (function init(){
     setDimensions(sizes.tiktok.w,sizes.tiktok.h);
     resetThumbnail();
+    if(typeof selectPlatform === 'function') selectPlatform(btnTiktok);
   })();
 
 })();
