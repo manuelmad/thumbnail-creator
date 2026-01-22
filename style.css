@@ -14,9 +14,9 @@ body {
     color: #fff;
 }
 
-div {
+/* div {
     background:#292e38;
-}
+} */
 
 .app {
     max-width:300px;
@@ -27,6 +27,11 @@ div {
 h1 {
     font-size:30px;
     margin:0 0 12px
+}
+
+.section-title {
+    text-align: center;
+    color: #0ae98a;
 }
 
 .controls {
@@ -46,7 +51,10 @@ h1 {
     align-items:center;
     gap:8px */
     display: block;
-    margin-bottom:16px
+    margin-bottom:16px;
+    border: 1px solid #cbd5df;
+    border-radius: 5px;
+    padding: 8px
 }
 
 #platform {
@@ -73,6 +81,7 @@ h1 {
     border:none;
     border-radius:4px;
     cursor:pointer;
+    min-width: 65px;
 }
 .controls button:active {
     opacity:0.9
@@ -82,7 +91,8 @@ h1 {
     border: 2px solid #0ae98a;
     border-radius: 5px;
     padding: 8px;
-    margin-bottom:16px
+    margin-bottom:16px;
+    background:#292e38;
 }
 
 .platforms-container {
@@ -226,7 +236,7 @@ h1 {
 /* Default TikTok size */
 .thumb {
     width:118px;
-    height:224px
+    height:224px;
 }
 
 #titlePreview {
