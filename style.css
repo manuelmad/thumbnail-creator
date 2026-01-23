@@ -19,7 +19,7 @@ body {
 } */
 
 .app {
-    max-width:300px;
+    width:300px;
     /* width:300px; */
     text-align: center;
 }
@@ -184,7 +184,7 @@ h1 {
     position:absolute;
     /* color:rgba(0,0,0,0.35); */
     color: #c9c6c6;
-    font-size:14px;
+    font-size:18px;
     text-transform:lowercase
 }
 
@@ -235,8 +235,8 @@ h1 {
 
 /* Default TikTok size */
 .thumb {
-    width:118px;
-    height:224px;
+    width:324px;
+    height:432px;
 }
 
 #titlePreview {
@@ -252,14 +252,14 @@ h1 {
     }
 }
 
-@media screen and (min-width:600px) {
+@media (min-width:600px) {
     .app {
-        max-width:580px;
+        width:580px;
     }
 }
 
-@media screen and (min-width:1024px) {
+@media (min-width:1024px) {
     .app {
-        max-width:800px;
+        width:800px;
     }
 }
