@@ -52,8 +52,44 @@
   let currentOverlay = null;
 
   function setDimensions(w,h){
-    thumb.style.width = w + 'px';
-    thumb.style.height = h + 'px';
+    //thumb.style.width = w + 'px';
+    //thumb.style.height = h + 'px';
+
+    if(window.innerWidth <= 600) {
+      if(w==324) {
+        thumb.style.width = 300 + 'px';
+        thumb.style.height = 400 + 'px';
+      } else if (w==1280) {
+        thumb.style.width = 300 + 'px';
+        thumb.style.height = 168.75 + 'px';
+      } else if (w==1080) {
+        thumb.style.width = 300 + 'px';
+        thumb.style.height = 533.33 + 'px';
+      }
+    } else if (window.innerWidth <= 1024 && window.innerWidth > 600) {
+      if(w==324) {
+        thumb.style.width = w + 'px';
+        thumb.style.height = h + 'px';
+      } else if (w==1280) {
+        thumb.style.width = 500 + 'px';
+        thumb.style.height = 281.25 + 'px';
+      } else if (w==1080) {
+        thumb.style.width = 500 + 'px';
+        thumb.style.height = 888.9 + 'px';
+      }
+    } else if (window.innerWidth > 1024) {
+      if(w==324) {
+        thumb.style.width = w + 'px';
+        thumb.style.height = h + 'px';
+      } else if (w==1280) {
+        thumb.style.width = 800 + 'px';
+        thumb.style.height = 450 + 'px';
+      } else if (w==1080) {
+        thumb.style.width = 500 + 'px';
+        thumb.style.height = 888.9 + 'px';
+      }
+    }
+
     if(w==324) {
       dims.textContent = `${w} x ${h} (${(sizes.tiktok.ratio)})`;
     } else if (w==1280) {
