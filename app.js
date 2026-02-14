@@ -348,7 +348,7 @@
       const text = titlePreview.textContent || '';
       if(!text) return;
       const fontSize = parseInt(fontSizeNumber.value,10) || DEFAULT_FONT_SIZE;
-      const lineHeight = Math.round(fontSize * 1.05);
+      const lineHeight = Math.round(fontSize * 1.5);
       ctx.font = `${fontSize}px "Press Start 2P", monospace`;
       ctx.fillStyle = (fontColorInput && fontColorInput.value) ? fontColorInput.value : DEFAULT_FONT_COLOR;
       ctx.textAlign = 'center';
