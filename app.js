@@ -43,7 +43,7 @@
   let currentImage = null;
   let currentSize = {w: sizes.tiktok.w, h: sizes.tiktok.h};
   const DEFAULT_FONT_SIZE = 10;
-  const DEFAULT_FONT_COLOR = '#ffffff';
+  const DEFAULT_FONT_COLOR = '#ffc000';
   const DEFAULT_IMAGE_OPACITY = 100;
   const DEFAULT_OVERLAY_SCALE = 100;
   const DEFAULT_OVERLAY_OPACITY = 100;
