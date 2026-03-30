@@ -135,6 +135,15 @@ h1 {
     align-items: center;
 }
 
+/* #profiles {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    margin-left: 16px;
+    font-size: 14px;
+    margin-top: 8px;
+} */
+
 .platform-btn {
     width: 64px;
     height: 40px;
