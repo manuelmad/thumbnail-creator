@@ -22,6 +22,9 @@
   const posTopBtn = document.getElementById('posTop');
   const posMiddleBtn = document.getElementById('posMiddle');
   const posBottomBtn = document.getElementById('posBottom');
+  const alignLeftBtn = document.getElementById('alignLeft');
+  const alignCenterBtn = document.getElementById('alignCenter');
+  const alignRightBtn = document.getElementById('alignRight');
   const overlayInput = document.getElementById('overlayInput');
   const overlayElement = document.getElementById('overlayImage');
   const overlaySizeRange = document.getElementById('overlaySize');
@@ -49,6 +52,7 @@
   const DEFAULT_OVERLAY_OPACITY = 100;
   const DEFAULT_OVERLAY_POS = {x:50,y:50};
   const DEFAULT_TITLE_POS = {x:50,y:50};
+  let currentTitleAlign = 'center';
   let currentOverlay = null;
 
   function setDimensions(w,h){
@@ -136,6 +140,7 @@
     if(overlaySizeNumber) overlaySizeNumber.value = DEFAULT_OVERLAY_SCALE;
     if(overlayOpacityRange) overlayOpacityRange.value = DEFAULT_OVERLAY_OPACITY;
     if(overlayOpacityNumber) overlayOpacityNumber.value = DEFAULT_OVERLAY_OPACITY;
+    setTitleAlign('center');
     updateTitlePosition();
   }
 
@@ -351,7 +356,7 @@
       const lineHeight = Math.round(fontSize * 1.5);
       ctx.font = `${fontSize}px "Press Start 2P", monospace`;
       ctx.fillStyle = (fontColorInput && fontColorInput.value) ? fontColorInput.value : DEFAULT_FONT_COLOR;
-      ctx.textAlign = 'center';
+      ctx.textAlign = currentTitleAlign;
       ctx.textBaseline = 'middle';
       ctx.shadowColor = 'rgba(0,0,0,0.6)';
       ctx.shadowBlur = Math.max(2, Math.round(fontSize/6));
@@ -400,8 +405,16 @@
       const xCoord = Math.round((xPercent/100) * canvas.width);
       const yCoord = Math.round((yPercent/100) * canvas.height);
       let startY = Math.max(lineHeight/2, yCoord - totalHeight/2 + lineHeight/2);
+      
+      let drawX = xCoord;
+      if (currentTitleAlign === 'left') {
+        drawX = xCoord - (canvas.width * 0.45);
+      } else if (currentTitleAlign === 'right') {
+        drawX = xCoord + (canvas.width * 0.45);
+      }
+
       for(let i=0;i<wrapLines.length;i++){
-        ctx.fillText(wrapLines[i], xCoord, startY + i*lineHeight);
+        ctx.fillText(wrapLines[i], drawX, startY + i*lineHeight);
       }
       ctx.shadowBlur = 0;
     };
@@ -509,6 +522,23 @@
   if(posTopBtn) posTopBtn.addEventListener('click', ()=>{ if(titleYRange && titleYNumber){ titleYRange.value=10; titleYNumber.value=10; updateTitlePosition(); } });
   if(posMiddleBtn) posMiddleBtn.addEventListener('click', ()=>{ if(titleYRange && titleYNumber){ titleYRange.value=50; titleYNumber.value=50; updateTitlePosition(); } });
   if(posBottomBtn) posBottomBtn.addEventListener('click', ()=>{ if(titleYRange && titleYNumber){ titleYRange.value=90; titleYNumber.value=90; updateTitlePosition(); } });
+
+  if(alignLeftBtn) alignLeftBtn.addEventListener('click', ()=>{ setTitleAlign('left'); });
+  if(alignCenterBtn) alignCenterBtn.addEventListener('click', ()=>{ setTitleAlign('center'); });
+  if(alignRightBtn) alignRightBtn.addEventListener('click', ()=>{ setTitleAlign('right'); });
+
+  function setTitleAlign(align) {
+    currentTitleAlign = align;
+    titlePreview.style.textAlign = align;
+    if (align === 'left') {
+      titlePreview.style.justifyContent = 'flex-start';
+    } else if (align === 'right') {
+      titlePreview.style.justifyContent = 'flex-end';
+    } else {
+      titlePreview.style.justifyContent = 'center';
+    }
+  }
+
   // Overlay size controls
   if(overlaySizeRange){
     overlaySizeRange.addEventListener('input', ()=>{
