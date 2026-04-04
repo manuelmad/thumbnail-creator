@@ -15,122 +15,162 @@
 
 <body>
   <main class="app">
-    <h1>Creador de miniaturas</h1>
+    <header>
+      <h1>Creador de miniaturas</h1>
+      <div id="dims" class="text-secondary" style="font-size: 0.75rem;">324 × 432</div>
+    </header>
 
-    <section class="controls">
-      <div>
-        <div class="platforms-container" role="tablist" aria-label="Plataforma">
-          <p>Elige la plataforma:</p>
-          <div id="btnTiktok" class="platform-btn" role="button" tabindex="0" aria-pressed="true" aria-label="TikTok">
+    <div class="studio-container">
+      <section class="controls">
+        <!-- Panel: Canvas -->
+        <div class="inspector-panel">
+          <p class="section-title">Lienzo</p>
+          <div class="platforms-container" role="tablist" aria-label="Plataforma">
+            <div id="btnTiktok" class="platform-btn" role="button" tabindex="0" aria-pressed="true" aria-label="TikTok"
+              title="TikTok">
+              <img src="imgs/Tiktok-logo.png" alt="" width="20">
+            </div>
+            <div id="btnYoutubeH" class="platform-btn" role="button" tabindex="0" aria-pressed="false"
+              aria-label="YouTube horizontal" title="YouTube Horizontal">
+              <img src="imgs/Youtube_logo.png" alt="" width="24">
+            </div>
+            <div id="btnYoutubeV" class="platform-btn" role="button" tabindex="0" aria-pressed="false"
+              aria-label="YouTube vertical" title="YouTube Shorts">
+              <img src="imgs/youtube_shorts_logo.png" alt="" width="24">
+            </div>
           </div>
-          <div id="btnYoutubeH" class="platform-btn" role="button" tabindex="0" aria-pressed="false"
-            aria-label="YouTube horizontal"></div>
-          <div id="btnYoutubeV" class="platform-btn" role="button" tabindex="0" aria-pressed="false"
-            aria-label="YouTube vertical"></div>
+          <div id="profiles"></div>
         </div>
-        <div id="profiles">
 
+        <!-- Panel: Background -->
+        <div class="inspector-panel">
+          <p class="section-title">Fondo</p>
+          <label class="fileLabel">
+            Subir imagen
+            <input type="file" id="fileInput" accept="image/*">
+          </label>
+          <label>
+            Opacidad
+            <div style="display: flex; gap: var(--space-sm); align-items: center;">
+              <input type="range" id="imageOpacity" min="0" max="100" value="100">
+              <input type="number" id="imageOpacityNumber" min="0" max="100" value="100" style="width: 60px;">
+            </div>
+          </label>
         </div>
-      </div>
-      <div class="backgroung-img__container">
-        <p class="section-title">IMAGEN DE FONDO</p>
-        <label class="fileLabel">Subir imagen:
-          <input type="file" id="fileInput" accept="image/*">
-        </label>
-        <label>Opacidad imagen:
-          <input type="range" id="imageOpacity" min="0" max="100" value="100">
-          <input type="number" id="imageOpacityNumber" min="0" max="100" value="100" style="width:64px">
-        </label>
-      </div>
-      <div class="overlay-img__container">
-        <p class="section-title">IMAGEN DE OVERLAY</p>
-        <label class="fileLabel">Subir imagen (delante del fondo):
-          <input type="file" id="overlayInput" accept="image/*">
-        </label>
-        <label>Tamaño overlay (% ancho):
-          <input type="range" id="overlaySize" min="10" max="200" value="100">
-          <input type="number" id="overlaySizeNumber" min="10" max="200" value="100" style="width:64px">
-        </label>
-        <label>Opacidad overlay:
-          <input type="range" id="overlayOpacity" min="0" max="100" value="100">
-          <input type="number" id="overlayOpacityNumber" min="0" max="100" value="100" style="width:64px">
-        </label>
-        <label>Posición overlay:
-          <div style="display:block">
-            <label style="display:block">X:
-              <input type="range" id="overlayX" min="0" max="100" value="50">
-              <input type="number" id="overlayXNumber" min="0" max="100" value="50" style="width:64px">
+
+        <!-- Panel: Overlay -->
+        <div class="inspector-panel">
+          <p class="section-title">Capa Superior (Overlay)</p>
+          <label class="fileLabel" id="overlayLabel">
+            <span>Subir imagen (PNG)</span>
+            <input type="file" id="overlayInput" accept="image/*">
+          </label>
+
+          <div style="margin-top: var(--space-md); display: flex; flex-direction: column; gap: var(--space-sm);">
+            <label>
+              Tamaño (%)
+              <div style="display: flex; gap: var(--space-sm); align-items: center;">
+                <input type="range" id="overlaySize" min="10" max="200" value="100">
+                <input type="number" id="overlaySizeNumber" min="10" max="200" value="100" style="width: 60px;">
+              </div>
             </label>
-            <label style="display:block">Y:
-              <input type="range" id="overlayY" min="0" max="100" value="50">
-              <input type="number" id="overlayYNumber" min="0" max="100" value="50" style="width:64px">
+            <label>
+              Opacidad
+              <div style="display: flex; gap: var(--space-sm); align-items: center;">
+                <input type="range" id="overlayOpacity" min="0" max="100" value="100">
+                <input type="number" id="overlayOpacityNumber" min="0" max="100" value="100" style="width: 60px;">
+              </div>
+            </label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm);">
+              <label>Posición X
+                <input type="number" id="overlayXNumber" min="0" max="100" value="50">
+              </label>
+              <label>Posición Y
+                <input type="number" id="overlayYNumber" min="0" max="100" value="50">
+              </label>
+            </div>
+          </div>
+
+          <div class="hidden">
+            <input type="range" id="overlayX" min="0" max="100" value="50">
+            <input type="range" id="overlayY" min="0" max="100" value="50">
+          </div>
+        </div>
+
+        <!-- Panel: Title -->
+        <div class="inspector-panel title-controls">
+          <p class="section-title">Texto</p>
+          <label>
+            Contenido
+            <textarea id="titleInput" placeholder="Escribe el título..." rows="3"></textarea>
+          </label>
+
+          <div style="display: flex; gap: var(--space-sm); align-items: center; margin-top: var(--space-sm);">
+            <label style="flex: 1;">
+              Tamaño
+              <input type="number" id="fontSizeNumber" min="2" max="100" value="10">
+            </label>
+            <label>
+              Color
+              <input type="color" id="fontColor" value="#ffc000" style="padding: 2px; height: 32px; width: 32px;">
             </label>
           </div>
-        </label>
-      </div>
-
-
-      <div class="title-controls">
-        <p class="section-title">TÍTULO</p>
-        <label>Título:
-          <br>
-          <textarea id="titleInput" placeholder="Escribe el título..." rows="3"></textarea>
-        </label>
-
-        <label>Tamaño fuente:
-          <input type="range" id="fontSizeRange" min="2" max="100" value="10">
-          <input type="number" id="fontSizeNumber" min="2" max="100" value="10">
-        </label>
-
-        <label>Color texto:
-          <input type="color" id="fontColor" value="#ffc000">
-        </label>
-
-        <label>Alineación:
-          <div style="margin-top:8px; margin-bottom:12px">
-            <button type="button" id="alignLeft">Izquierda</button>
-            <button type="button" id="alignCenter">Centro</button>
-            <button type="button" id="alignRight">Derecha</button>
+          <div class="hidden">
+            <input type="range" id="fontSizeRange" min="2" max="100" value="10">
           </div>
-        </label>
 
-        <label>Posición título:
-          <div class="posControls">
-            <label style="display:block">X:
-              <input type="range" id="titleX" min="0" max="100" value="50">
-              <input type="number" id="titleXNumber" min="0" max="100" value="50" style="width:64px">
-            </label>
-            <label style="display:block">Y:
-              <input type="range" id="titleY" min="0" max="100" value="50">
-              <input type="number" id="titleYNumber" min="0" max="100" value="50" style="width:64px">
-            </label>
-            <div style="margin-top:8px">
+          <div style="margin-top: var(--space-md);">
+            <p class="section-title" style="font-size: 0.65rem;">Alineación y Posición</p>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; margin-bottom: 8px;">
+              <button type="button" id="alignLeft" title="Alinear Izquierda">Izq</button>
+              <button type="button" id="alignCenter" title="Centrar">Cen</button>
+              <button type="button" id="alignRight" title="Alinear Derecha">Der</button>
+            </div>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px;">
               <button type="button" id="posTop">Arriba</button>
               <button type="button" id="posMiddle">Centro</button>
               <button type="button" id="posBottom">Abajo</button>
             </div>
           </div>
-        </label>
-      </div>
-      <div class="export-button__container">
-        <button type="button" id="exportBtn">Exportar imagen</button>
-      </div>
 
-    </section>
+          <div
+            style="display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-sm); margin-top: var(--space-sm);">
+            <label>Ajuste X
+              <input type="number" id="titleXNumber" min="0" max="100" value="50">
+            </label>
+            <label>Ajuste Y
+              <input type="number" id="titleYNumber" min="0" max="100" value="50">
+            </label>
+          </div>
 
-    <section class="preview">
-      <div id="thumbContainer" class="thumb" tabindex="0">
-        <div id="bgImage" class="bg"></div>
-        <div id="overlayImage" class="overlay"></div>
-        <div id="watermark" class="watermark">aquí tu miniatura</div>
-        <div id="titlePreview" class="title"></div>
-        <input type="file" id="dropInput" accept="image/*" class="hidden">
-      </div>
-      <div class="info">
-        <div>Dimensiones: <span id="dims">324 × 432</span></div>
-      </div>
-    </section>
+          <div class="hidden">
+            <input type="range" id="titleX" min="0" max="100" value="50">
+            <input type="range" id="titleY" min="0" max="100" value="50">
+          </div>
+        </div>
+
+        <div class="export-button__container">
+          <button type="button" id="exportBtn">Exportar Imagen</button>
+        </div>
+      </section>
+
+      <section class="preview">
+        <div class="thumb-viewport">
+          <div id="thumbContainer" class="thumb" tabindex="0">
+            <div id="bgImage" class="bg"></div>
+            <div id="overlayImage" class="overlay"></div>
+            <div id="watermark" class="watermark">aquí tu miniatura</div>
+            <div id="titlePreview" class="title"></div>
+            <input type="file" id="dropInput" accept="image/*" class="hidden">
+          </div>
+        </div>
+        <div class="info">
+          Clic para subir fondo · Arrastra y suelta · PNG para superposiciones
+        </div>
+      </section>
+    </div>
   </main>
+
 
   <script src="app.js"></script>
 </body>

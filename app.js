@@ -224,11 +224,11 @@
         if (val === 'atari') {
           applyProfile(25, 26, 90, 70);
         } else if (val === 'club') {
-          applyProfile(25, 26, 60, 68);
+          applyProfile(22, 26, 60, 68);
         } else if (val === 'game') {
-          applyProfile(25, 26, 90, 60);
+          applyProfile(19, 26, 90, 60);
         } else if (val === 'mortal') {
-          applyProfile(25, 26, 90, 65);
+          applyProfile(22, 26, 90, 65);
         }
       }
     });
