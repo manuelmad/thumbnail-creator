@@ -404,9 +404,13 @@
     const drawTitle = () => {
       const text = titlePreview.textContent || '';
       if (!text) return;
-      const fontSize = parseInt(fontSizeNumber.value, 10) || DEFAULT_FONT_SIZE;
-      const lineHeight = Math.round(fontSize * 1.5);
-      ctx.font = `${fontSize}px "Press Start 2P", monospace`;
+      const titleStyle = window.getComputedStyle(titlePreview);
+      const previewFontSize = parseFloat(titleStyle.fontSize);
+      const previewWidth = thumb.getBoundingClientRect().width;
+      const scale = canvas.width / previewWidth;
+      const fontSize = previewFontSize * scale;
+      const lineHeight = fontSize * 1.5;
+      ctx.font = `${fontSize}px ${titleStyle.fontFamily}`;
       ctx.fillStyle = (fontColorInput && fontColorInput.value) ? fontColorInput.value : DEFAULT_FONT_COLOR;
       ctx.textAlign = currentTitleAlign;
       ctx.textBaseline = 'middle';
@@ -456,7 +460,7 @@
       const yPercent = (titleYNumber && titleYNumber.value) ? Number(titleYNumber.value) : DEFAULT_TITLE_POS.y;
       const xCoord = Math.round((xPercent / 100) * canvas.width);
       const yCoord = Math.round((yPercent / 100) * canvas.height);
-      let startY = Math.max(lineHeight / 2, yCoord - totalHeight / 2 + lineHeight / 2);
+      const startY = yCoord - totalHeight / 2 + lineHeight / 2;
 
       let drawX = xCoord;
       if (currentTitleAlign === 'left') {
