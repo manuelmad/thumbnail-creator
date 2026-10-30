@@ -261,7 +261,7 @@
     btnYoutubeH.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btnYoutubeH.click(); } });
   }
   if (btnYoutubeV) {
-    btnYoutubeV.addEventListener('click', () => { selectPlatform(btnYoutubeV); setDimensions(sizes.youtube_v.w, sizes.youtube_v.h); resetThumbnail(); });
+    btnYoutubeV.addEventListener('click', () => { selectPlatform(btnYoutubeV); setDimensions(sizes.youtube_v.w, sizes.youtube_v.h); resetThumbnail(); applyProfile(45, 26, 100, 65); });
     btnYoutubeV.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); btnYoutubeV.click(); } });
   }
 
